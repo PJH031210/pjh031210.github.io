@@ -1,5 +1,422 @@
-<html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PJH031210 - 개인 홈페이지 & 게임 아카이브</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-color: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-primary: #3b82f6;
+            --accent-secondary: #8b5cf6;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --hover-bg: rgba(51, 65, 85, 0.8);
+        }
 
-<h1> PJH031210 web </h1>
+        [data-theme="light"] {
+            --bg-color: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --text-color: #0f172a;
+            --text-secondary: #64748b;
+            --accent-primary: #2563eb;
+            --accent-secondary: #7c3aed;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --hover-bg: rgba(241, 245, 249, 0.9);
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pretendard', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-primary);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--hover-bg);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1100px;
+            margin: 140px auto 60px auto;
+            padding: 0 20px;
+            flex: 1;
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--accent-primary);
+        }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        /* Card Style */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 220px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-primary);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .card-icon {
+            font-size: 1.8rem;
+            color: var(--accent-primary);
+            background: rgba(59, 130, 246, 0.1);
+            padding: 12px;
+            border-radius: 12px;
+        }
+
+        .badge {
+            background-color: rgba(139, 92, 246, 0.15);
+            color: var(--accent-secondary);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .badge.empty {
+            background-color: var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .card-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .card-content p {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        .card-footer {
+            margin-top: 20px;
+        }
+
+        .btn-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            width: 100%;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            transition: opacity 0.2s ease;
+        }
+
+        .btn-link:hover {
+            opacity: 0.9;
+        }
+
+        .btn-disabled {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--border-color);
+            color: var(--text-secondary);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            width: 100%;
+            justify-content: center;
+            cursor: not-allowed;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            .hero h1 { font-size: 2.2rem; }
+            .nav-links { display: none; } /* 모바일 간소화 */
+        }
+    </style>
+</head>
+<body data-theme="dark">
+
+    <!-- Header -->
+    <header>
+        <a href="#" class="logo">PJH031210 web</a>
+        <ul class="nav-links">
+            <li><a href="#games">게임 아카이브</a></li>
+            <li><a href="#hobbies">나의 취미</a></li>
+            <li><button class="theme-toggle" id="themeBtn"><i class="fa-solid fa-moon"></i></button></li>
+        </ul>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Welcome to PJH031210 World</h1>
+            <p>제가 만든 게임들과 다양한 활동을 모아둔 개인 공간입니다.</p>
+        </section>
+
+        <!-- Games Section -->
+        <section id="games">
+            <h2 class="section-title"><i class="fa-solid fa-gamepad"></i> Game Archive</h2>
+            <div class="grid">
+                <!-- 1. 활성화된 게임 아카이브 링크 칸 -->
+                <div class="card">
+                    <div>
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fa-solid fa-rocket"></i></div>
+                            <span class="badge">Active</span>
+                        </div>
+                        <div class="card-content">
+                            <h3>게임 아카이브</h3>
+                            <p>직접 제작하고 빌드한 게임들을 모아둔 메인 링크입니다. 재미있게 즐겨주세요!</p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <!-- 💡 아래의 href="여기에_본인의_게임_링크_입력" 부분을 수정하세요 -->
+                        <a href="https://여기에-본인-게임아카이브-링크를-넣으세요.com" target="_blank" class="btn-link">
+                            게임 보러가기 <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 2. 빈칸 (Coming Soon) -->
+                <div class="card">
+                    <div>
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fa-solid fa-ghost"></i></div>
+                            <span class="badge empty">Coming Soon</span>
+                        </div>
+                        <div class="card-content">
+                            <h3>차기작 게임 1</h3>
+                            <p>다음에 공개될 새로운 게임 프로젝트 공간입니다. 개발이 진행되면 업데이트됩니다.</p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-disabled">준비 중입니다</div>
+                    </div>
+                </div>
+
+                <!-- 3. 빈칸 (Coming Soon) -->
+                <div class="card">
+                    <div>
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fa-solid fa-cube"></i></div>
+                            <span class="badge empty">Coming Soon</span>
+                        </div>
+                        <div class="card-content">
+                            <h3>차기작 게임 2</h3>
+                            <p>또 다른 아이디어로 채워질 빈 슬롯입니다. 기대해 주세요!</p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-disabled">준비 중입니다</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hobbies Section (추가된 취미 칸) -->
+        <section id="hobbies">
+            <h2 class="section-title"><i class="fa-solid fa-heart"></i> My Hobbies</h2>
+            <div class="grid">
+                <!-- 취미 카드 -->
+                <div class="card">
+                    <div>
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fa-solid fa-headphones-simple"></i></div>
+                            <span class="badge">Hobby</span>
+                        </div>
+                        <div class="card-content">
+                            <h3>취미 생활</h3>
+                            <p>게임 제작 외에 여가 시간을 보내는 저만의 취미 공간입니다. (내용을 자유롭게 수정해 보세요!)</p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-disabled">소개 준비 중</div>
+                    </div>
+                </div>
+
+                <!-- 빈 취미 칸 1 -->
+                <div class="card">
+                    <div>
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fa-solid fa-star"></i></div>
+                            <span class="badge empty">Coming Soon</span>
+                        </div>
+                        <div class="card-content">
+                            <h3>추가 취미 공간</h3>
+                            <p>새로운 관심사가 생기면 채워나갈 칸입니다.</p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-disabled">준비 중입니다</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 PJH031210. All rights reserved.</p>
+    </footer>
+
+    <!-- Script for Theme Toggle -->
+    <script>
+        const themeBtn = document.getElementById('themeBtn');
+        const body = document.body;
+
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                body.setAttribute('data-theme', 'light');
+                themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+            }
+        });
+    </script>
+</body>
 </html>
