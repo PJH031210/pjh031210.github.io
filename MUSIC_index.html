@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suno AI 음악 모음</title>
+    <!-- FontAwesome 아이콘 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f7f9;
+            color: #1e293b;
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* 좌측 상단 홈 버튼 */
+        .home-btn {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background-color: #ffffff;
+            color: #0f172a;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+        }
+
+        .home-btn:hover {
+            background-color: #00a86b;
+            color: #ffffff;
+            border-color: #00a86b;
+            box-shadow: 0 4px 12px rgba(0, 168, 107, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        /* 메인 상단 헤더 영역 */
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background-color: #e6f7f0;
+            color: #00a86b;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+
+        .title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .title-underline {
+            position: relative;
+            display: inline-block;
+        }
+
+        .title-underline::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: #00a86b;
+            border-radius: 2px;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: #64748b;
+            margin-bottom: 48px;
+        }
+
+        /* 트랙 카드 그리드 레이아웃 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            width: 100%;
+        }
+
+        .track-card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .track-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 카드 헤더 (컬러 영역) */
+        .card-header {
+            padding: 20px;
+            height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        /* 카드 1 - 활성화 에메랄드 그린 */
+        .card-header.active {
+            background-color: #00a86b;
+            color: #ffffff;
+        }
+
+        /* 카드 2, 3 - 네이비 다크 톤 */
+        .card-header.dark {
+            background-color: #1e293b;
+            color: #ffffff;
+        }
+
+        .card-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .card-header.active .card-badge {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+
+        .card-header.dark .card-badge {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+
+        .icon-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .card-header-bottom .track-code {
+            font-size: 1.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .card-header-bottom .track-sub {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+
+        /* 카드 바디 */
+        .card-body {
+            padding: 24px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .track-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .track-desc {
+            font-size: 0.875rem;
+            color: #64748b;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .tag {
+            padding: 4px 10px;
+            background-color: #f1f5f9;
+            color: #475569;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 6px;
+        }
+
+        .tag.highlight {
+            background-color: #e6f7f0;
+            color: #00a86b;
+        }
+
+        /* 이동 버튼 */
+        .btn-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 12px;
+            background-color: #00a86b;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border-radius: 10px;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-link:hover {
+            background-color: #008f5a;
+        }
+
+        @media (max-width: 768px) {
+            .home-btn {
+                position: static;
+                margin-bottom: 24px;
+                display: inline-flex;
+            }
+            body {
+                padding-top: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 좌상단 홈으로 돌아가기 버튼 -->
+    <a href="index.html" class="home-btn">
+        <i class="fa-solid fa-house"></i>
+        <span>홈으로</span>
+    </a>
+
+    <div class="main-container">
+        <!-- 타이틀 헤더 -->
+        <div class="badge">INTERACTIVE MUSIC PLAYGROUND</div>
+        <h1 class="title">
+            <span class="title-underline">Suno AI</span> 음악
+        </h1>
+        <p class="subtitle">Suno AI를 활용하여 직접 생성하고 작업한 트랙 모음입니다.</p>
+
+        <!-- 카드 목록 -->
+        <div class="card-grid">
+            
+            <!-- Track 01 -->
+            <div class="track-card">
+                <div class="card-header active">
+                    <div class="card-header-top">
+                        <span class="card-badge">Active Link</span>
+                        <div class="icon-circle"><i class="fa-solid fa-compact-disc"></i></div>
+                    </div>
+                    <div class="card-header-bottom">
+                        <div class="track-code">Track 01</div>
+                        <div class="track-sub">Suno AI Original Creation</div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h2 class="track-title">첫 번째 음악 트랙</h2>
+                    <p class="track-desc">생성형 AI 기술을 활용해 제작한 첫 번째 트랙입니다. 아래 버튼을 통해 Suno AI 플랫폼에서 원본 음원을 직접 감상할 수 있습니다.</p>
+                    <div class="tags">
+                        <span class="tag highlight">Suno AI</span>
+                        <span class="tag">Track 1</span>
+                    </div>
+                    <a href="https://suno.com/s/A6jhKuQTeXnkgJpx" target="_blank" class="btn-link">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span>트랙 1 들어보기</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Track 02 -->
+            <div class="track-card">
+                <div class="card-header dark">
+                    <div class="card-header-top">
+                        <span class="card-badge">Track 2</span>
+                        <div class="icon-circle"><i class="fa-solid fa-music"></i></div>
+                    </div>
+                    <div class="card-header-bottom">
+                        <div class="track-code">Track 02</div>
+                        <div class="track-sub">Suno AI Original Creation</div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h2 class="track-title">두 번째 음악 트랙</h2>
+                    <p class="track-desc">감각적인 멜로디와 사운드 레이어로 완성된 두 번째 AI 생성 트랙입니다. 링크를 클릭하여 들어보세요.</p>
+                    <div class="tags">
+                        <span class="tag highlight">Suno AI</span>
+                        <span class="tag">Track 2</span>
+                    </div>
+                    <a href="https://suno.com/s/HrP6oDN4Mzi7LLql" target="_blank" class="btn-link">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span>트랙 2 들어보기</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Track 03 -->
+            <div class="track-card">
+                <div class="card-header dark">
+                    <div class="card-header-top">
+                        <span class="card-badge">Track 3</span>
+                        <div class="icon-circle"><i class="fa-solid fa-headphones"></i></div>
+                    </div>
+                    <div class="card-header-bottom">
+                        <div class="track-code">Track 03</div>
+                        <div class="track-sub">Suno AI Original Creation</div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h2 class="track-title">세 번째 음악 트랙</h2>
+                    <p class="track-desc">다채로운 세션과 풍부한 보컬 표현이 돋보이는 세 번째 음악 프로젝트입니다.</p>
+                    <div class="tags">
+                        <span class="tag highlight">Suno AI</span>
+                        <span class="tag">Track 3</span>
+                    </div>
+                    <a href="https://suno.com/s/cEm6T8LmZV2WdVmv" target="_blank" class="btn-link">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span>트랙 3 들어보기</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
