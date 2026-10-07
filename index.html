@@ -135,17 +135,18 @@
                 <div class="text-center max-w-2xl mx-auto mb-16">
                     <span class="text-emerald-500 font-semibold text-sm tracking-wider uppercase">Interactive Playground</span>
                     <h2 class="text-3xl sm:text-4xl font-extrabold mt-2 tracking-tight">프로젝트</h2>
-                    <p class="text-slate-600 dark:text-slate-400 mt-3">직접 진행한 프로젝트 입니.</p>
+                    <p class="text-slate-600 dark:text-slate-400 mt-3">직접 진행한 프로젝트 입니다.</p>
                 </div>
 
                 <!-- Games Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Game Card 1: Active Archive Link -->
+                    
+                    <!-- Game Card 1: Active Archive Link (메인 게임 아카이브) -->
                     <div class="glass-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between border-2 border-emerald-500/50">
                         <div>
-                            <div class="relative h-48 overflow-hidden bg-slate-200 dark:bg-slate-800">
-                                <img src="https://placehold.co/600x400/059669/ffffff?text=Game+Archive" alt="게임 아카이브" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/059669/ffffff?text=Archive'">
-                                <span class="absolute top-3 right-3 px-3 py-1 bg-emerald-500 text-white text-xs font-semibold rounded-full shadow-md">Active Link</span>
+                            <div class="relative h-48 bg-emerald-600 flex flex-col items-center justify-center p-6 text-white text-center">
+                                <span class="absolute top-3 right-3 px-3 py-1 bg-white/20 backdrop-blur-md text-white text-xs font-semibold rounded-full shadow-md">Active Link</span>
+                                <h4 class="text-3xl font-extrabold tracking-tight">Game Archive</h4>
                             </div>
                             <div class="p-6">
                                 <h3 class="text-xl font-bold">메인 게임 아카이브</h3>
@@ -160,33 +161,35 @@
                         </div>
                         <div class="p-6 pt-0">
                             <!-- 게임 아카이브 링크 연결 -->
-                            <a href="https://pjh031210.github.io/Game/" class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-semibold shadow-md shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 text-center">
+                            <a href="https://pjh031210.github.io/Game/" target="_blank" class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-semibold shadow-md shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 text-center">
                                 <i class="fa-solid fa-arrow-up-right-from-square"></i> 게임 아카이브로 이동
                             </a>
                         </div>
                     </div>
 
-                    <!-- Game Card 2: Empty / Coming Soon -->
-                    <div class="glass-card rounded-2xl overflow-hidden shadow-lg border border-dashed border-slate-300 dark:border-slate-700 flex flex-col justify-between opacity-80 hover:opacity-100 transition-opacity">
+                    <!-- Game Card 2: 음악 아카이브 연결 (신규 적용) -->
+                    <div class="glass-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between border-2 border-emerald-500/50">
                         <div>
-                            <div class="relative h-48 bg-slate-200/50 dark:bg-slate-800/50 flex flex-col items-center justify-center text-slate-400">
-                                <i class="fa-solid fa-plus-circle text-4xl mb-2 text-slate-400 dark:text-slate-600"></i>
-                                <span class="text-xs font-semibold uppercase tracking-wider">Coming Soon</span>
+                            <div class="relative h-48 bg-emerald-600 flex flex-col items-center justify-center p-6 text-white text-center">
+                                <span class="absolute top-3 right-3 px-3 py-1 bg-white/20 backdrop-blur-md text-white text-xs font-semibold rounded-full shadow-md">Active Link</span>
+                                <h4 class="text-3xl font-extrabold tracking-tight">Music Archive</h4>
                             </div>
                             <div class="p-6">
-                                <h3 class="text-xl font-bold text-slate-400 dark:text-slate-500">새로운 게임 슬롯</h3>
-                                <p class="text-slate-500 dark:text-slate-500 text-sm mt-2">
-                                    다음에 제작할 멋진 웹 게임이나 인터랙티브 프로젝트가 이곳에 추가될 예정입니다.
+                                <h3 class="text-xl font-bold">메인 음악 아카이브</h3>
+                                <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 line-clamp-2">
+                                    Suno AI를 활용하여 직접 생성하고 작업한 음원 트랙 모음 페이지로 바로 이동합니다.
                                 </p>
                                 <div class="flex flex-wrap gap-2 mt-4">
-                                    <span class="px-2.5 py-1 bg-slate-200 dark:bg-slate-800 text-slate-500 text-xs font-medium rounded-lg">추가 예정</span>
+                                    <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-medium rounded-lg">Suno AI</span>
+                                    <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-medium rounded-lg">음악 트랙 모음</span>
                                 </div>
                             </div>
                         </div>
                         <div class="p-6 pt-0">
-                            <button disabled class="w-full py-3 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-600 font-semibold cursor-not-allowed flex items-center justify-center gap-2">
-                                <i class="fa-solid fa-lock"></i> 준비 중
-                            </button>
+                            <!-- MUSIC_index.html 링크 연결 -->
+                            <a href="MUSIC_index.html" class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-semibold shadow-md shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 text-center">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> 음악 아카이브로 이동
+                            </a>
                         </div>
                     </div>
 
