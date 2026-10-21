@@ -1,0 +1,5 @@
+name = "pjh-telegram-contact-alert"
+main = "worker.js"
+compatibility_date = "2026-10-21"
+workers_dev = true
+
